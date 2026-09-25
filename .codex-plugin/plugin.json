@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "description": "Research and safely upgrade dependencies using authoritative compatibility and security evidence.",
   "author": {
-    "name": "Silent Wolf Labs"
+    "name": "Silent Wolf Labs",
+    "url": "https://github.com/Silent-Wolf-Labs"
   },
-  "repository": "git@github.com:Silent-Wolf-Labs/dependency-upgrade-audit.git",
+  "homepage": "https://github.com/Silent-Wolf-Labs/dependency-upgrade-audit",
+  "repository": "https://github.com/Silent-Wolf-Labs/dependency-upgrade-audit",
   "license": "Apache-2.0",
+  "keywords": ["dependencies", "security", "audit", "upgrade"],
   "skills": "./skills/",
   "interface": {
     "displayName": "Dependency Upgrade Audit",
@@ -15,6 +18,8 @@
     "developerName": "Silent Wolf Labs",
     "category": "Productivity",
     "capabilities": [],
-    "defaultPrompt": "Assess a dependency upgrade and its security impact."
+    "defaultPrompt": [
+      "Assess a dependency upgrade and its security impact."
+    ]
   }
 }
