@@ -7,6 +7,8 @@ on:
       - '.codex-plugin/**'
       - 'skills/**'
       - 'scripts/**'
+      - 'Containerfile'
+      - '.containerignore'
       - '.github/workflows/plugin-packages.yml'
   push:
     branches: [main]
@@ -16,6 +18,8 @@ on:
       - '.codex-plugin/**'
       - 'skills/**'
       - 'scripts/**'
+      - 'Containerfile'
+      - '.containerignore'
       - '.github/workflows/plugin-packages.yml'
   workflow_dispatch:
 
@@ -28,22 +32,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: npm install --global @anthropic-ai/claude-code@2.1.283
-      - run: claude plugin validate .claude-plugin/plugin.json --strict --json
-      - run: claude plugin validate .claude-plugin/marketplace.json --strict --json
+      - run: sudo apt-get update && sudo apt-get install --yes buildah
+      - run: sudo buildah build --target validate-claude --tag plugin-claude-validation .
 
   validate-codex:
     name: Validate Codex plugin
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: node scripts/validate-codex-plugin.mjs .
+      - run: sudo apt-get update && sudo apt-get install --yes buildah
+      - run: sudo buildah build --target validate-codex --tag plugin-codex-validation .
 
   release:
     name: Package plugin releases
@@ -52,14 +50,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: node scripts/package-plugins.mjs release
+      - run: sudo apt-get update && sudo apt-get install --yes buildah
       - run: |
-          cd release
-          zip -rq ../dependency-upgrade-audit-claude-${{ github.ref_name }}.zip claude
-          zip -rq ../dependency-upgrade-audit-codex-${{ github.ref_name }}.zip codex
+          sudo buildah build --target package --build-arg RELEASE_VERSION=${{ github.ref_name }} --tag plugin-packages .
+          container=$(sudo buildah from plugin-packages)
+          mountpoint=$(sudo buildah mount "$container")
+          sudo cp "$mountpoint"/release/*.zip .
+          sudo buildah umount "$container"
+          sudo buildah rm "$container"
       - uses: actions/upload-artifact@v4
         with:
           name: plugin-packages

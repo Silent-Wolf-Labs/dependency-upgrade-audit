@@ -1,0 +1,8 @@
+.agents
+.codex
+.git
+.github
+.idea
+release
+*.zip
+node_modules
