@@ -1,0 +1,13 @@
+{
+  "name": "dependency-upgrade-audit",
+  "version": "0.1.0",
+  "description": "Research and safely upgrade dependencies using authoritative compatibility and security evidence.",
+  "author": {
+    "name": "Silent Wolf Labs",
+    "url": "https://github.com/Silent-Wolf-Labs"
+  },
+  "homepage": "https://github.com/Silent-Wolf-Labs/dependency-upgrade-audit",
+  "repository": "https://github.com/Silent-Wolf-Labs/dependency-upgrade-audit",
+  "license": "Apache-2.0",
+  "keywords": ["dependencies", "security", "audit", "upgrade"]
+}
