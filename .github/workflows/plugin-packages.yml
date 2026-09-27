@@ -54,10 +54,13 @@ jobs:
       - run: |
           sudo buildah build --target package --build-arg RELEASE_VERSION=${{ github.ref_name }} --tag plugin-packages .
           container=$(sudo buildah from plugin-packages)
+          cleanup() {
+            sudo buildah umount "$container" || true
+            sudo buildah rm "$container" || true
+          }
+          trap cleanup EXIT
           mountpoint=$(sudo buildah mount "$container")
-          sudo cp "$mountpoint"/release/*.zip .
-          sudo buildah umount "$container"
-          sudo buildah rm "$container"
+          sudo sh -c 'cp "$1"/release/*.zip "$2"' sh "$mountpoint" "$GITHUB_WORKSPACE"
       - uses: actions/upload-artifact@v4
         with:
           name: plugin-packages
