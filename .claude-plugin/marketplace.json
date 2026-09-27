@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "silent-wolf-labs",
+  "description": "Silent Wolf Labs plugins for Claude Code.",
+  "owner": {
+    "name": "Silent Wolf Labs",
+    "url": "https://github.com/Silent-Wolf-Labs"
+  },
+  "plugins": [
+    {
+      "name": "dependency-upgrade-audit",
+      "description": "Research and safely upgrade dependencies using authoritative compatibility and security evidence.",
+      "source": ".",
+      "category": "productivity"
+    }
+  ]
+}
